@@ -6,6 +6,8 @@ import "./ERC721Simple.sol";
 	 * @title VitualLands of Shangeri-La
 	 *
 	 * A script that manages 10 000 tokens that represents a piece of vitual land within Shangeri-La.
+	 * modified from https://github.com/OpenZeppelin/openzeppelin-solidity/tree/master/contracts/token/ERC721
+	 * and from https://github.com/1000ethhomepage/1000ethhomepage-contracts
 	 */
 
 contract  VirtualLands is ERC721Simple {
