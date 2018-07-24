@@ -24,7 +24,7 @@ contract('VirtualLands', accounts => {
 	// ability to buy the token that the VirtualLands smart contract allows us
 	beforeEach(async function () {
 	    token = await VirtualLands.new({ from: owner });
-	    await token.initialBuyToken(tokenOne, {from: userOne, value: web3.toWei(10, "finney") });
+	    await token.initialBuyToken(tokenOne, {from: userOne, value: web3.toWei(100, "finney") });
 	});
 
 	// -----------------------------------------------------------------------------------------------------------
@@ -401,34 +401,34 @@ contract('VirtualLands', accounts => {
 
 		describe('when no one owns the token already', function () {
 			it('can buy the token', async function () {
-				await token.initialBuyToken(tokenId, {from: sender, value: web3.toWei(10, "finney")});
+				await token.initialBuyToken(tokenId, {from: sender, value: web3.toWei(100, "finney")});
 
 				const ownerOf = await token.ownerOf(tokenId);
 				ownerOf.should.be.equal(sender);
 			});
 
 			it('emits event', async function () {
-				const { logs } = await token.initialBuyToken(tokenId, {from: sender, value: web3.toWei(10, "finney")});
+				const { logs } = await token.initialBuyToken(tokenId, {from: sender, value: web3.toWei(100, "finney")});
 
 				logs.length.should.be.equal(1);
 
 				logs[0].event.should.be.eq('EmitBought');
 				logs[0].args._by.should.be.equal(sender);
-				logs[0].args._at.should.be.bignumber.equal(web3.toWei(10, "finney"));
+				logs[0].args._at.should.be.bignumber.equal(web3.toWei(100, "finney"));
 				logs[0].args._tokenId.should.be.bignumber.equal(tokenId);
 			});
 			
 			it('appears on new owner balance', async function () {
 				const previousBalance = await token.balanceOf(sender);
 				
-				await token.initialBuyToken(tokenId, {from: sender, value: web3.toWei(10, "finney")});
+				await token.initialBuyToken(tokenId, {from: sender, value: web3.toWei(100, "finney")});
 
 				const newBalance = await token.balanceOf(sender);
 				newBalance.should.be.bignumber.equal(previousBalance + 1);
 			});
 
 			it('adds the token to the tokens list of the new owner', async function () {
-				await token.initialBuyToken(tokenId, {from: sender, value: web3.toWei(10, "finney")});
+				await token.initialBuyToken(tokenId, {from: sender, value: web3.toWei(100, "finney")});
 
 				const tokenIDs = await token.tokensOf(sender);
 				tokenIDs.length.should.be.equal(1);
@@ -436,7 +436,7 @@ contract('VirtualLands', accounts => {
 			});
 
 			it('adds to total supply', async function () {
-				await token.initialBuyToken(tokenId, {from: sender, value: web3.toWei(10, "finney")});
+				await token.initialBuyToken(tokenId, {from: sender, value: web3.toWei(100, "finney")});
 
 				const totalSupply = await token.totalSupply();
 	      		totalSupply.should.be.bignumber.equal(2);
@@ -445,9 +445,9 @@ contract('VirtualLands', accounts => {
 
 		describe('when someone already owns the token', function () {
 			it('cannot buy the token', async function () {
-				await token.initialBuyToken(tokenId, {from: sender, value: web3.toWei(10, "finney")});
+				await token.initialBuyToken(tokenId, {from: sender, value: web3.toWei(100, "finney")});
 
-				await assertRevert(token.initialBuyToken(tokenId, {from: someoneElse, value: web3.toWei(10, "finney")}));
+				await assertRevert(token.initialBuyToken(tokenId, {from: someoneElse, value: web3.toWei(100, "finney")}));
 			});
 		});
 	});
@@ -682,13 +682,13 @@ contract('VirtualLands', accounts => {
 		describe('contract owner after a token is bought during the initial auction', function () {
 			it('has a balance of 10 finneys', async function () {
 				const balance = await token.BalanceOfEther(owner);
-				balance.should.be.bignumber.equal(web3.toWei(10, "finney"));
+				balance.should.be.bignumber.equal(web3.toWei(100, "finney"));
 			});
 
 			it('will be able to withdraw the 10 finneys', async function () {
 				// we get the post first initial sell balance of the owner in the smart contract
 				const balanceInSmartContract = await token.BalanceOfEther(owner);
-				balanceInSmartContract.should.be.bignumber.equal(web3.toWei(10, "finney"));
+				balanceInSmartContract.should.be.bignumber.equal(web3.toWei(100, "finney"));
 
 				// we get the initial balance of the owner pre withdraw
 				let initialBalance = web3.eth.getBalance(owner);
@@ -705,7 +705,7 @@ contract('VirtualLands', accounts => {
 				// we remove the initial balance from the new balance => should equal (10 finneys - gas usage for withdraw)
 				newBalance = newBalance.minus(initialBalance);
 
-				var howMuchShouldReceive = new BigNumber(web3.toWei(10, "finney"));
+				var howMuchShouldReceive = new BigNumber(web3.toWei(100, "finney"));
 				howMuchShouldReceive = howMuchShouldReceive.minus(gasCost);
 
 				newBalance.should.be.bignumber.equal(howMuchShouldReceive);
@@ -723,7 +723,7 @@ contract('VirtualLands', accounts => {
 			it('will not be able to withdraw the 10 finneys', async function () {
 				// we get the post first initial sell balance of the owner in the smart contract
 				const balanceInSmartContract = await token.BalanceOfEther(owner);
-				balanceInSmartContract.should.be.bignumber.equal(web3.toWei(10, "finney"));
+				balanceInSmartContract.should.be.bignumber.equal(web3.toWei(100, "finney"));
 
 				let initialBalance = web3.eth.getBalance(someoneElse);
 
@@ -742,7 +742,7 @@ contract('VirtualLands', accounts => {
 
 				// we get the new balance of the owner in the smart contract
 				const newBalanceInSmartContract = await token.BalanceOfEther(owner);
-				newBalanceInSmartContract.should.be.bignumber.equal(web3.toWei(10, "finney"));
+				newBalanceInSmartContract.should.be.bignumber.equal(web3.toWei(100, "finney"));
 			});
 		});
 
@@ -761,7 +761,7 @@ contract('VirtualLands', accounts => {
 			it('owner will get their balance, include a fee', async function () {
 				// we get the post first initial sell balance of the owner in the smart contract
 				const balanceInSmartContract = await token.BalanceOfEther(owner);
-				balanceInSmartContract.should.be.bignumber.equal(web3.toWei(11, "finney"));
+				balanceInSmartContract.should.be.bignumber.equal(web3.toWei(101, "finney"));
 
 				// we get the initial balance of the owner pre withdraw
 				let initialBalance = web3.eth.getBalance(owner);
@@ -778,7 +778,7 @@ contract('VirtualLands', accounts => {
 				// we remove the initial balance from the new balance => should equal (10 finneys - gas usage for withdraw)
 				newBalance = newBalance.minus(initialBalance);
 
-				var howMuchShouldReceive = new BigNumber(web3.toWei(11, "finney"));
+				var howMuchShouldReceive = new BigNumber(web3.toWei(101, "finney"));
 				howMuchShouldReceive = howMuchShouldReceive.minus(gasCost);
 
 				newBalance.should.be.bignumber.equal(howMuchShouldReceive);
@@ -793,7 +793,7 @@ contract('VirtualLands', accounts => {
 				newBalanceInSmartContractSeller.should.be.bignumber.equal(web3.toWei(123-1, "finney"));
 			});
 
-			it('seller will get only their balance, dedectus a fee of 1 finney', async function () {
+			it('seller will get only their balance, dedects a fee of 1 finney', async function () {
 				// we get the post first initial sell balance of the seller in the smart contract
 				const balanceInSmartContract = await token.BalanceOfEther(seller);
 				balanceInSmartContract.should.be.bignumber.equal(web3.toWei(123-1, "finney"));
@@ -825,7 +825,7 @@ contract('VirtualLands', accounts => {
 
 				// we get the new balance of the owner in the smart contract
 				const newBalanceInSmartContractSeller = await token.BalanceOfEther(owner);
-				newBalanceInSmartContractSeller.should.be.bignumber.equal(web3.toWei(11, "finney"));
+				newBalanceInSmartContractSeller.should.be.bignumber.equal(web3.toWei(101, "finney"));
 			});
 		});
 	});
@@ -907,14 +907,14 @@ contract('VirtualLands', accounts => {
 		});
 		
 		it('cannot buy a token with ID larger than totalSupplyLimit.', async function () {
-			await assertRevert(token.initialBuyToken(10001, {from: otherUser, value: web3.toWei(10, "finney") }));				
+			await assertRevert(token.initialBuyToken(10001, {from: otherUser, value: web3.toWei(100, "finney") }));				
 		});
 	});
 
 	describe('initialPrice set', function () {
 	    it('has an initial price.', async function () {
 			const initialPrice = await token.initialPrice();
-			initialPrice.should.be.bignumber.equal(web3.toWei(10, "finney"));
+			initialPrice.should.be.bignumber.equal(web3.toWei(100, "finney"));
 		});
 		
 		it('can set initial price to a new value', async function () {

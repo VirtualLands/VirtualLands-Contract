@@ -1,0 +1,41 @@
+{
+  "name": "VirtualLands-contracts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VirtualLands/VirtualLands-Contracts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VirtualLands/VirtualLands-Contracts/issues"
+  },
+  "homepage": "https://github.com/VirtualLands/VirtualLands-Contracts#readme",
+  "dependencies": {
+    "babel": "^6.23.0",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-env": "^1.1.8",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-2": "^6.18.0",
+    "babel-preset-stage-3": "^6.17.0",
+    "babel-register": "^6.23.0",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "chai-bignumber": "^2.0.2",
+    "truffle-hdwallet-provider": "0.0.5"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  }
+}

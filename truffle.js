@@ -1,6 +1,6 @@
 
 const HDWalletProvider = require("truffle-hdwallet-provider");
-var mnemonic = "...";
+var mnemonic = ".......er";
 
 module.exports = {
   networks: {
@@ -8,14 +8,23 @@ module.exports = {
       host: "localhost",
       port: 8545,
       network_id: "*" // Match any network id
-    }, 
+    },
+    mainnet: {
+      provider: () =>
+        new HDWalletProvider(mnemonic, "https://mainnet.infura.io/<YourKey>"),
+
+      network_id: 1, // mainnet
+      gasPrice: 20000000000, // 4 Gwei
+
+    },
     ropsten: {
       // must be a thunk, otherwise truffle commands may hang in CI
-      provider: () => 
+      provider: () =>
         new HDWalletProvider(mnemonic, "https://ropsten.infura.io/<Yourkey>"),
-	  
+
       network_id: '3',
-	  gas: 4500000,
+      gas: 50000000,
+      
     }
   }
 };
